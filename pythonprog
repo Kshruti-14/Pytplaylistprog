@@ -1,0 +1,71 @@
+class SongNode:
+    def __init__(self, title, artist):
+        self.title = title
+        self.artist = artist
+        self.next = None
+
+class Playlist:
+    def __init__(self):
+        self.head = None
+
+    def add_song(self, title, artist):
+        new_song = SongNode(title, artist)
+        if not self.head:
+            self.head = new_song
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = new_song
+
+    def remove_song(self, title):
+        current = self.head
+        previous = None
+
+        while current:
+            if current.title == title:
+                if previous:
+                    previous.next = current.next
+                else:
+                    self.head = current.next
+                return
+            previous = current
+            current = current.next
+        print(f"Song titled '{title}' not found in the playlist.")
+
+    def display_playlist(self):
+        if not self.head:
+            print("The playlist is empty.")
+            return
+        current = self.head
+        while current:
+            print(f"Title: {current.title}, Artist: {current.artist}")
+            current = current.next
+
+def main():
+    playlist = Playlist()
+    
+    # Adding songs to the playlist
+    playlist.add_song("Song 1", "Artist A")
+    playlist.add_song("Song 2", "Artist B")
+    playlist.add_song("Song 3", "Artist C")
+    
+    print("Current Playlist:")
+    playlist.display_playlist()
+    
+    # Removing a song
+    print("\nRemoving 'Song 2':")
+    playlist.remove_song("Song 2")
+    
+    print("Updated Playlist:")
+    playlist.display_playlist()
+
+    # Attempting to remove a non-existent song
+    print("\nAttempting to remove 'Song 4':")
+    playlist.remove_song("Song 4")
+
+    print("Final Playlist:")
+    playlist.display_playlist()
+
+if __name__ == "__main__":
+    main()
